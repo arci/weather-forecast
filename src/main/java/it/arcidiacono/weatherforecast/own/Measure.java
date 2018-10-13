@@ -1,5 +1,7 @@
 package it.arcidiacono.weatherforecast.own;
 
+import java.time.Instant;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor(staticName = "of")
 public class Measure {
 
-	private Long timestamp;
+	private Instant timestamp;
 
 	private Double temperature;
 

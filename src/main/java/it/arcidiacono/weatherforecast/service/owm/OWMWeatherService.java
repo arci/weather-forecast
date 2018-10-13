@@ -24,7 +24,7 @@ public class OWMWeatherService implements WeatherService {
 	@Override
 	public List<Measure>  getForecast (City city) throws ServiceException {
 		try {
-			return client.getForecast(city.getCode());
+			return client.getForecast(city.getName(), city.getCountry());
 		} catch (OWMException e) {
 			throw new ServiceException(e.getMessage(), e.getStatusCode());
 		}

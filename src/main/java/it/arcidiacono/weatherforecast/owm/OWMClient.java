@@ -1,6 +1,7 @@
 package it.arcidiacono.weatherforecast.owm;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,15 +41,16 @@ public class OWMClient {
 		this.apiKey = apiKey;
 	}
 
-	/**
-	 * Queries OWM for forecast data of the given city.
+
+	/** Queries OWM for forecast data of the given city.
 	 *
-	 * @param cityCode the OWM city code to query
+	 * @param name the city name
+	 * @param country the country code in two characters format
 	 * @return a list of {@linkplain Measure} parsed from OWM response
 	 * @throws OWMException if any error occur
 	 */
-	public List<Measure> getForecast (Integer cityCode) throws OWMException {
-		WebTarget webTarget = buildForecastWebTarget(cityCode);
+	public List<Measure> getForecast (String name, String country) throws OWMException {
+		WebTarget webTarget = buildForecastWebTarget(name, country);
 		Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 		if (response.getStatus() < Status.BAD_REQUEST.getStatusCode()) {
 			return parseResponse(response);
@@ -61,9 +63,15 @@ public class OWMClient {
 		}
 	}
 
-	private WebTarget buildForecastWebTarget (Integer cityCode) {
+	private WebTarget buildForecastWebTarget (String name, String country) {
 		Client client = ClientBuilder.newClient();
-		return client.target(ENDPOINT).path(FORECAST).queryParam("appid", apiKey).queryParam("id", cityCode);
+		WebTarget target = client.target(ENDPOINT)
+				.path(FORECAST)
+				.queryParam("appid", apiKey)
+				.queryParam("q", name + "," + country)
+				.queryParam("units", "metric");
+		logger.info("target endpoint: {}", target);
+		return target;
 	}
 
 	/*
@@ -80,7 +88,7 @@ public class OWMClient {
 		JsonNode list = json.get("list");
 		if (list.isArray()) {
 			for (final JsonNode element : list) {
-				Long timestamp = element.get("dt").asLong();
+				Instant timestamp = Instant.ofEpochSecond(element.get("dt").asLong());
 				JsonNode main = element.get("main");
 				Double temperature = main.get("temp").asDouble();
 				Double pressure = main.get("pressure").asDouble();
@@ -109,4 +117,5 @@ public class OWMClient {
 			throw new ResponseFormatException(e);
 		}
 	}
+
 }
