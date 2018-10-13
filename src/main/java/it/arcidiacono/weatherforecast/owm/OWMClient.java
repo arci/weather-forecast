@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,14 @@ public class OWMClient {
 
 	private static final String FORECAST = "forecast";
 
-	private static final String API_KEY = "5935b02a6ede8356a952143cdde6696b";
+	private final String apiKey;
+
+	public OWMClient(String apiKey) {
+		if(StringUtils.isBlank(apiKey)) {
+			throw new NullPointerException("api key cannot be null");
+		}
+		this.apiKey = apiKey;
+	}
 
 	/**
 	 * Queries OWM for forecast data of the given city.
@@ -55,15 +63,16 @@ public class OWMClient {
 
 	private WebTarget buildForecastWebTarget (Integer cityCode) {
 		Client client = ClientBuilder.newClient();
-		return client.target(ENDPOINT).path(FORECAST).queryParam("appid", API_KEY).queryParam("id", cityCode);
+		return client.target(ENDPOINT).path(FORECAST).queryParam("appid", apiKey).queryParam("id", cityCode);
 	}
 
 	/*
 	 * TODO better error handling:
-	 *  - list can miss
-	 *  - main can miss
-	 *  - dt, temp and pressure can miss or data type conversion can fail
-	 *  Either throw a new "MalformedResponseException" or log and skip the element
+	 * - list can miss
+	 * - main can miss
+	 * - dt, temp and
+	 * pressure can miss or data type conversion can fail Either throw a new
+	 * "MalformedResponseException" or log and skip the element
 	 */
 	private List<Measure> parseResponse (Response response) throws ResponseFormatException {
 		List<Measure> measures = new ArrayList<>();
@@ -84,7 +93,7 @@ public class OWMClient {
 
 	/*
 	 * TODO better error handling:
-	 *  - message can miss
+	 * - message can miss
 	 */
 	private String getErrorMessage (Response response) throws ResponseFormatException {
 		JsonNode json = asJson(response);

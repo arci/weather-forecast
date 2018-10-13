@@ -16,7 +16,7 @@
 		<jackson.version>2.9.7</jackson.version>
 		<hibernate.validator.version>6.0.13.Final</hibernate.validator.version>
 		<lombok.version>1.18.2</lombok.version>
-		<commons.lang.version>2.6</commons.lang.version>
+		<commons.lang.version>3.0</commons.lang.version>
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
 
@@ -65,13 +65,13 @@
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -91,12 +91,19 @@
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 		</dependency>
-		
+
+		<!-- Apache -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang.version}</version>
+		</dependency>
+
 		<!-- Logging -->
 		<dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
 	</dependencies>
 </project>
