@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import it.arcidiacono.weatherforecast.bean.WeatherData;
 import it.arcidiacono.weatherforecast.operation.WeatherOperation;
-import it.arcidiacono.weatherforecast.response.WeatherData;
 
 @Path("data/{city}/{country}")
 public class WeatherForecastResource {

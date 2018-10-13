@@ -2,7 +2,7 @@ package it.arcidiacono.weatherforecast.operation;
 
 import javax.inject.Inject;
 
-import it.arcidiacono.weatherforecast.response.WeatherData;
+import it.arcidiacono.weatherforecast.bean.WeatherData;
 import it.arcidiacono.weatherforecast.service.WeatherService;
 
 public class WeatherOperation {
