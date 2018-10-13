@@ -11,6 +11,6 @@ public class Measure {
 
 	private Double temperature;
 
-	private Double pression;
+	private Double pressure;
 
 }
