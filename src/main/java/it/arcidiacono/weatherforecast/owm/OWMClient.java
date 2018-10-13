@@ -32,6 +32,13 @@ public class OWMClient {
 
 	private static final String API_KEY = "5935b02a6ede8356a952143cdde6696b";
 
+	/**
+	 * Queries OWM for forecast data of the given city.
+	 *
+	 * @param cityCode the OWM city code to query
+	 * @return a list of {@linkplain Measure} parsed from OWM response
+	 * @throws OWMException if any error occur
+	 */
 	public List<Measure> getForecast (Integer cityCode) throws OWMException {
 		WebTarget webTarget = buildForecastWebTarget(cityCode);
 		Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
@@ -51,6 +58,13 @@ public class OWMClient {
 		return client.target(ENDPOINT).path(FORECAST).queryParam("appid", API_KEY).queryParam("id", cityCode);
 	}
 
+	/*
+	 * TODO better error handling:
+	 *  - list can miss
+	 *  - main can miss
+	 *  - dt, temp and pressure can miss or data type conversion can fail
+	 *  Either throw a new "MalformedResponseException" or log and skip the element
+	 */
 	private List<Measure> parseResponse (Response response) throws ResponseFormatException {
 		List<Measure> measures = new ArrayList<>();
 		JsonNode json = asJson(response);
@@ -68,6 +82,10 @@ public class OWMClient {
 		return measures;
 	}
 
+	/*
+	 * TODO better error handling:
+	 *  - message can miss
+	 */
 	private String getErrorMessage (Response response) throws ResponseFormatException {
 		JsonNode json = asJson(response);
 		return json.get("message").asText();
