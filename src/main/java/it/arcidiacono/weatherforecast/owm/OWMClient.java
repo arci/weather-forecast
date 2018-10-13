@@ -1,6 +1,8 @@
 package it.arcidiacono.weatherforecast.owm;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -17,6 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.arcidiacono.weatherforecast.owm.exception.CityNotFoundException;
 import it.arcidiacono.weatherforecast.owm.exception.OWMException;
+import it.arcidiacono.weatherforecast.owm.exception.ResponseFormatException;
+import it.arcidiacono.weatherforecast.own.Measure;
 
 public class OWMClient {
 
@@ -28,13 +32,17 @@ public class OWMClient {
 
 	private static final String API_KEY = "5935b02a6ede8356a952143cdde6696b";
 
-	public void getForecast (Integer cityCode) throws OWMException {
+	public List<Measure> getForecast (Integer cityCode) throws OWMException {
 		WebTarget webTarget = buildForecastWebTarget(cityCode);
 		Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
 		if (response.getStatus() < Status.BAD_REQUEST.getStatusCode()) {
-			// TODO
+			return parseResponse(response);
 		} else {
-			buildError(response);
+			String error = getErrorMessage(response);
+			if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
+				throw new CityNotFoundException(error);
+			}
+			throw new OWMException(error, response.getStatus());
 		}
 	}
 
@@ -43,26 +51,35 @@ public class OWMClient {
 		return client.target(ENDPOINT).path(FORECAST).queryParam("appid", API_KEY).queryParam("id", cityCode);
 	}
 
-	private void buildError (Response response) throws OWMException {
-		String error = getErrorMessage(response);
-		if (response.getStatus() == Status.NOT_FOUND.getStatusCode()) {
-			throw new CityNotFoundException(error);
+	private List<Measure> parseResponse (Response response) throws ResponseFormatException {
+		List<Measure> measures = new ArrayList<>();
+		JsonNode json = asJson(response);
+		JsonNode list = json.get("list");
+		if (list.isArray()) {
+			for (final JsonNode element : list) {
+				Long timestamp = element.get("dt").asLong();
+				JsonNode main = element.get("main");
+				Double temperature = main.get("temp").asDouble();
+				Double pressure = main.get("pressure").asDouble();
+				Measure measure = Measure.of(timestamp, temperature, pressure);
+				measures.add(measure);
+			}
 		}
-		throw new OWMException(error, response.getStatus());
+		return measures;
 	}
 
-	private String getErrorMessage (Response response) {
+	private String getErrorMessage (Response response) throws ResponseFormatException {
+		JsonNode json = asJson(response);
+		return json.get("message").asText();
+	}
+
+	private JsonNode asJson (Response response) throws ResponseFormatException {
 		try {
-			JsonNode json = asJson(response);
-			return json.get("message").asText();
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readTree(response.readEntity(String.class));
 		} catch (IOException e) {
-			logger.error("cannot extract error message", e);
-			return "generic error";
+			logger.error("cannot read response body", e);
+			throw new ResponseFormatException(e);
 		}
-	}
-
-	private JsonNode asJson (Response response) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readTree(response.readEntity(String.class));
 	}
 }
