@@ -22,31 +22,31 @@ A successful response (status code **200**) for the above request would be:
 
 ```json
 {
-  'forecast': {
-    '2018-10-15': {
-      'daily': 18.84,
-      'nightly': 13.386000000000001,
-      'pressure': 1006.19125
+  "forecast": {
+    "2018-10-15": {
+      "daily": 18.84,
+      "nightly": 13.386000000000001,
+      "pressure": 1006.19125
     },
-    '2018-10-19': {
-      'daily': 20.706666666666667,
-      'nightly': 13.826666666666668,
-      'pressure': 1006.9983333333333
+    "2018-10-19": {
+      "daily": 20.706666666666667,
+      "nightly": 13.826666666666668,
+      "pressure": 1006.9983333333333
     },
-    '2018-10-18': {
-      'daily': 19.426666666666666,
-      'nightly': 14.847999999999999,
-      'pressure': 1003.615
+    "2018-10-18": {
+      "daily": 19.426666666666666,
+      "nightly": 14.847999999999999,
+      "pressure": 1003.615
     },
-    '2018-10-17': {
-      'daily': 19.279999999999998,
-      'nightly': 12.102,
-      'pressure': 1004.8849999999999
+    "2018-10-17": {
+      "daily": 19.279999999999998,
+      "nightly": 12.102,
+      "pressure": 1004.8849999999999
     },
-    '2018-10-16': {
-      'daily': 16.8,
-      'nightly': 12.856,
-      'pressure': 1006.51125
+    "2018-10-16": {
+      "daily": 16.8,
+      "nightly": 12.856,
+      "pressure": 1006.51125
     }
   }
 }
@@ -67,10 +67,10 @@ will have the following response:
 ```json
 [
   {
-    'message': "country may not be null"
+    "message": "country may not be null"
   },
   {
-    'message': "city may not be null"
+    "message": "city may not be null"
   }
 ]
 ```
@@ -84,7 +84,7 @@ the response will be:
 ```json
 [
   {
-    'message': "country code should have two characters"
+    "message": "country code should have two characters"
   }
 ]
 ```
@@ -101,7 +101,7 @@ the response will be:
 
 ```json
 {
-  'message': "city not found"
+  "message": "city not found"
 }
 ```
 
@@ -125,7 +125,7 @@ To decouple web tier from the application logic an *operation* class is injected
 The service interface is binded to the OpenWeatherMap implementation in the composition root. The OpenWeatherMap implementation resides in the packages `it.arcidiacono.weatherforecast.owm.*` that can be moved to a separate maven project.
 
 ## Further work
-I leaved some *TODO* comments within classes to indicate where improvements can be made.
+Some *TODO* comments has been leaved within classes to indicate where improvements can be made.
 
 All methods relative to time manipulation may be moved to an utility class.
 
