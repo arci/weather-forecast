@@ -1,5 +1,4 @@
 # Assumptions
-
 ## City country
 Since city name is ambiguous for OpenWeatherMap APIs, I suppose I can add another parameter called *country* that the user is required to specify along with the city name (for example: *Milan* and *IT*)
 
@@ -9,21 +8,19 @@ It would be possible to avoid this by exposing an additional API for searching a
 I assumed the timezone of the OpenWeatherMap response refer to the client timezone since I do not found in the documentation a reference to the used timezone available within the JSON response.
 
 # Environment
-
 The application has been developed and tested using Java 8 and deployed on a Tomcat 9.0 Server, the application is packaged as a _war_.
 
 # Endpoints
-
 The application consist of a single GET endpoint `/data` that accepts two query parameters: *city* and *country*.
 
 ```
-/data?city=Milan&country=IT
+GET /data?city=Milan&country=IT
 ```
 
 ## Successful response
 A successful response (status code **200**) for the above request would be:
 
-```
+```json
 {
   forecast: {
     2018-10-15: {
@@ -67,7 +64,7 @@ GET /data
 ```
 will have the following response:
 
-```
+```json
 [
   {
     message: "country may not be null"
@@ -84,7 +81,7 @@ GET /data?city=Milan&country=malicious
 ```
 the response will be:
 
-```
+```json
 [
   {
     message: "country code should have two characters"
@@ -102,7 +99,7 @@ GET /data?city=Unknown&country=IT
 ```
 the response will be:
 
-```
+```json
 {
   message: "city not found"
 }
@@ -125,7 +122,7 @@ Request bean are available within the package `it.arcidiacono.weatherforecast.re
 
 To decouple web tier from the application logic an *operation* class is injected within the resource: `it.arcidiacono.weatherforecast.operation.WeatherOperation` and to further separate the application logic from the specific underlying service an instance of the service implementing the interface `it.arcidiacono.weatherforecast.service.WeatherService` is injected within the operation.
 
-The service interface is binded to the OpenWeatherMap implementation in the composition root. The OpenWeatherMap implementation resides in the packages `it.arcidiacono.weatherforecast.OpenWeatherMap.*` that can be moved to a separate maven project.
+The service interface is binded to the OpenWeatherMap implementation in the composition root. The OpenWeatherMap implementation resides in the packages `it.arcidiacono.weatherforecast.owm.*` that can be moved to a separate maven project.
 
 ## Further work
 I leaved some *TODO* comments within classes to indicate where improvements can be made.
@@ -133,9 +130,7 @@ I leaved some *TODO* comments within classes to indicate where improvements can 
 All methods relative to time manipulation may be moved to an utility class.
 
 # Tests
-
 A unit test namely `WeatherOperationTest` can be found within the test package. Just run it as unit test.
 
 # Source Code
-
 Source code can be found on [GitHub](https://github.com/Arci/weather-forecast).
