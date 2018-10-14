@@ -15,11 +15,11 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.arcidiacono.weatherforecast.bean.Error;
-import it.arcidiacono.weatherforecast.bean.WeatherForecast;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.operation.WeatherOperation;
 import it.arcidiacono.weatherforecast.request.ForecastRequest;
+import it.arcidiacono.weatherforecast.response.Error;
+import it.arcidiacono.weatherforecast.response.WeatherForecast;
 
 @Path("data")
 @OpenAPIDefinition(

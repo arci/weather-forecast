@@ -1,4 +1,4 @@
-package it.arcidiacono.weatherforecast.bean;
+package it.arcidiacono.weatherforecast.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import it.arcidiacono.weatherforecast.bean.Error;
+import it.arcidiacono.weatherforecast.response.Error;
 
 public final class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
 

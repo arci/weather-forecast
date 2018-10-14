@@ -1,4 +1,4 @@
-package it.arcidiacono.weatherforecast.bean;
+package it.arcidiacono.weatherforecast.response;
 
 import lombok.Data;
 import lombok.NonNull;

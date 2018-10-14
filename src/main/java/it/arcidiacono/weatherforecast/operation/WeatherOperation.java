@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.arcidiacono.weatherforecast.bean.City;
-import it.arcidiacono.weatherforecast.bean.WeatherForecast;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.own.bean.Measure;
+import it.arcidiacono.weatherforecast.response.WeatherForecast;
 import it.arcidiacono.weatherforecast.service.WeatherService;
 
 public class WeatherOperation {
