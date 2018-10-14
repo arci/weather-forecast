@@ -11,7 +11,7 @@ import it.arcidiacono.weatherforecast.own.bean.Measure;
 public interface WeatherService {
 
 	/**
-	 * Get list of forecast measures for the given city,
+	 * Get list of forecast measures for the given city.
 	 *
 	 * @param  city             the city to get forecast of
 	 * @return                  a map where keys are {@linkplain LocalDate} of the forecasted day and values are lists of
