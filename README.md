@@ -133,5 +133,3 @@ All methods relative to time manipulation may be moved to an utility class.
 # Tests
 
 A unit test namely `WeatherOperationTest` can be found within the test package. Just run it as unit test.
-
-Sorry I did not have time for an integration test :(
