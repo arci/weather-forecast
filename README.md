@@ -1,12 +1,12 @@
 # Assumptions
 
 ## City country
-Since city name is ambiguous for OWM APIs, I suppose I can add another parameter called *country* that the user is required to specify along with the city name (for example: *Milan* and *IT*)
+Since city name is ambiguous for OpenWeatherMap APIs, I suppose I can add another parameter called *country* that the user is required to specify along with the city name (for example: *Milan* and *IT*)
 
 It would be possible to avoid this by exposing an additional API for searching a city given just its name and retrieving its unique ID, then the `/data` endpoint would accept those unique ID to interrogate the underlying service.
 
 ## Dates and timezones
-I assumed the timezone of the OWM response refer to the client timezone since I do not found in the documentation a reference to the used timezone available within the JSON response.
+I assumed the timezone of the OpenWeatherMap response refer to the client timezone since I do not found in the documentation a reference to the used timezone available within the JSON response.
 
 # Environment
 
@@ -93,7 +93,7 @@ the response will be:
 ```
 
 ## City not found
-If the given pair: *city* and *country* does not match any city on OWM then a **404** is returned by OWM and to the user too.
+If the given pair: *city* and *country* does not match any city on OpenWeatherMap then a **404** is returned by OpenWeatherMap and to the user too.
 
 For example, given the request:
 
@@ -111,6 +111,8 @@ the response will be:
 # Documentation
 OpenAPI 3.x documentation is available while the server is running at `/openapi.json`. OpenAPI specification is produced using Swagger annotations.
 
+A static version can be found at the root of the project with the same name.
+
 # Project structure
 The project uses *Jersey* for exposing REST APIs.
 
@@ -123,7 +125,7 @@ Request bean are available within the package `it.arcidiacono.weatherforecast.re
 
 To decouple web tier from the application logic an *operation* class is injected within the resource: `it.arcidiacono.weatherforecast.operation.WeatherOperation` and to further separate the application logic from the specific underlying service an instance of the service implementing the interface `it.arcidiacono.weatherforecast.service.WeatherService` is injected within the operation.
 
-The service interface is binded to the OWM implementation in the composition root. The OWM implementation resides in the packages `it.arcidiacono.weatherforecast.owm.*` that can be moved to a separate maven project.
+The service interface is binded to the OpenWeatherMap implementation in the composition root. The OpenWeatherMap implementation resides in the packages `it.arcidiacono.weatherforecast.OpenWeatherMap.*` that can be moved to a separate maven project.
 
 ## Further work
 I leaved some *TODO* comments within classes to indicate where improvements can be made.

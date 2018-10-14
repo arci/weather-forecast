@@ -1,0 +1,119 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Weather forecast",
+		"description": "Weather forecast API",
+		"version": "1.0"
+	},
+	"paths": {
+		"/data": {
+			"get": {
+				"summary": "Get weather forecast",
+				"description": "Get weather forecast for the given city",
+				"operationId": "getCityData",
+				"parameters": [
+					{
+						"name": "city",
+						"in": "query",
+						"description": "The city name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "country",
+						"in": "query",
+						"description": "The country code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The forecast",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/WeatherForecast"
+								}
+							}
+						}
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"WeatherForecast": {
+				"type": "object",
+				"properties": {
+					"forecast": {
+						"type": "object",
+						"additionalProperties": {
+							"$ref": "#/components/schemas/AverageForecast"
+						}
+					}
+				}
+			},
+			"AverageForecast": {
+				"type": "object",
+				"properties": {
+					"daily": {
+						"type": "number",
+						"description": "The daily average temperature in Celsius",
+						"format": "double"
+					},
+					"nightly": {
+						"type": "number",
+						"description": "The nightly average temperature in Celsius",
+						"format": "double"
+					},
+					"pressure": {
+						"type": "number",
+						"description": "The average pressure",
+						"format": "double"
+					}
+				}
+			},
+			"Error": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}
