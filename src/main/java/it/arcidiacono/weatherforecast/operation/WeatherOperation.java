@@ -2,6 +2,7 @@ package it.arcidiacono.weatherforecast.operation;
 
 import java.time.Instant;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -13,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.bean.WeatherData;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
-import it.arcidiacono.weatherforecast.own.Measure;
+import it.arcidiacono.weatherforecast.own.bean.Measure;
 import it.arcidiacono.weatherforecast.service.WeatherService;
 
 public class WeatherOperation {
@@ -27,14 +28,14 @@ public class WeatherOperation {
 	@Inject
 	private WeatherService service;
 
-	public WeatherData getData (String name, String country) throws ServiceException {
+	public WeatherData getData(String name, String country) throws ServiceException {
 		City city = City.of(name, country);
 		List<Measure> forecast = service.getForecast(city);
 		logger.info("retrieved {} forecasted measueres", forecast.size());
 		return aggregateData(forecast);
 	}
 
-	private WeatherData aggregateData (List<Measure> forecast) {
+	private WeatherData aggregateData(List<Measure> forecast) {
 		double dailySum = 0;
 		int dailyMeasures = 0;
 		double nightlySum = 0;
@@ -63,9 +64,15 @@ public class WeatherOperation {
 		return WeatherData.of(daily, nightly, pressure);
 	}
 
-	private boolean isDaytime (Instant timestamp) {
-		LocalTime target =  LocalTime.from(timestamp.atZone(TimeZone.getDefault().toZoneId()));
+	private boolean isDaytime(Long timestamp) {
+		LocalTime target = toLocalTime(timestamp);
 		return target.isAfter(eight) && target.isBefore(eighteen);
+	}
+
+	private LocalTime toLocalTime(Long timestamp) {
+		Instant instant = Instant.ofEpochSecond(timestamp);
+		ZoneId timeZone = TimeZone.getDefault().toZoneId();
+		return LocalTime.from(instant.atZone(timeZone));
 	}
 
 }

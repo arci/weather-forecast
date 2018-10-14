@@ -20,9 +20,9 @@ public class WeatherForecastResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCityData (
+	public Response getCityData(
 			@PathParam("city") String city,
-			@PathParam("country") String country) throws ServiceException	{
+			@PathParam("country") String country) throws ServiceException {
 		WeatherData data = operation.getData(city, country);
 		return Response.ok().entity(data).build();
 	}

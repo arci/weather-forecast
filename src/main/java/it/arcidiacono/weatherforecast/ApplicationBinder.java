@@ -9,7 +9,7 @@ import it.arcidiacono.weatherforecast.service.owm.OWMWeatherService;
 public class ApplicationBinder extends AbstractBinder {
 
 	@Override
-	protected void configure () {
+	protected void configure() {
 		bind(WeatherOperation.class).to(WeatherOperation.class);
 		bind(OWMWeatherService.class).to(WeatherService.class);
 	}

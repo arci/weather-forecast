@@ -9,7 +9,7 @@ import it.arcidiacono.weatherforecast.bean.Error;
 public class ServiceExceptionMapper implements ExceptionMapper<ServiceException> {
 
 	@Override
-	public Response toResponse (ServiceException exception) {
+	public Response toResponse(ServiceException exception) {
 		Error bean = Error.of(exception.getMessage());
 		return Response
 				.status(exception.getStatusCode())

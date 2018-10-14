@@ -8,7 +8,7 @@ import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.owm.OWMClient;
 import it.arcidiacono.weatherforecast.owm.exception.OWMException;
-import it.arcidiacono.weatherforecast.own.Measure;
+import it.arcidiacono.weatherforecast.own.bean.Measure;
 import it.arcidiacono.weatherforecast.service.WeatherService;
 
 public class OWMWeatherService implements WeatherService {
@@ -22,7 +22,7 @@ public class OWMWeatherService implements WeatherService {
 	}
 
 	@Override
-	public List<Measure>  getForecast (City city) throws ServiceException {
+	public List<Measure> getForecast(City city) throws ServiceException {
 		try {
 			return client.getForecast(city.getName(), city.getCountry());
 		} catch (OWMException e) {

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor(staticName="of")
+@AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 public class WeatherData {
 
