@@ -9,8 +9,8 @@ import javax.annotation.PostConstruct;
 import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.owm.OWMClient;
+import it.arcidiacono.weatherforecast.owm.bean.Measure;
 import it.arcidiacono.weatherforecast.owm.exception.OWMException;
-import it.arcidiacono.weatherforecast.own.bean.Measure;
 import it.arcidiacono.weatherforecast.service.WeatherService;
 
 public class OWMWeatherService implements WeatherService {

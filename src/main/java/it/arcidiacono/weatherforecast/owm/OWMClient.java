@@ -23,10 +23,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.arcidiacono.weatherforecast.owm.bean.Measure;
 import it.arcidiacono.weatherforecast.owm.exception.CityNotFoundException;
 import it.arcidiacono.weatherforecast.owm.exception.OWMException;
 import it.arcidiacono.weatherforecast.owm.exception.ResponseFormatException;
-import it.arcidiacono.weatherforecast.own.bean.Measure;
 
 public class OWMClient {
 

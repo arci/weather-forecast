@@ -26,7 +26,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.operation.WeatherOperation;
-import it.arcidiacono.weatherforecast.own.bean.Measure;
+import it.arcidiacono.weatherforecast.owm.bean.Measure;
 import it.arcidiacono.weatherforecast.response.AverageForecast;
 import it.arcidiacono.weatherforecast.response.WeatherForecast;
 import it.arcidiacono.weatherforecast.service.WeatherService;

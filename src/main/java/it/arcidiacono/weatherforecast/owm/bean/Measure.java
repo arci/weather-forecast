@@ -1,4 +1,4 @@
-package it.arcidiacono.weatherforecast.own.bean;
+package it.arcidiacono.weatherforecast.owm.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

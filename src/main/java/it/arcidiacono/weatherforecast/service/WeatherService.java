@@ -6,7 +6,7 @@ import java.util.Map;
 
 import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
-import it.arcidiacono.weatherforecast.own.bean.Measure;
+import it.arcidiacono.weatherforecast.owm.bean.Measure;
 
 public interface WeatherService {
 

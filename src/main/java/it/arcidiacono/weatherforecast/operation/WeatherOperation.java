@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
-import it.arcidiacono.weatherforecast.own.bean.Measure;
+import it.arcidiacono.weatherforecast.owm.bean.Measure;
 import it.arcidiacono.weatherforecast.response.AverageForecast;
 import it.arcidiacono.weatherforecast.response.WeatherForecast;
 import it.arcidiacono.weatherforecast.service.WeatherService;
@@ -25,9 +25,9 @@ public class WeatherOperation {
 
 	private static Logger logger = LoggerFactory.getLogger(WeatherOperation.class);
 
-	private LocalTime eight = LocalTime.parse("08:00:00");
+	private static LocalTime eight = LocalTime.parse("08:00:00");
 
-	private LocalTime eighteen = LocalTime.parse("18:00:00");
+	private static LocalTime eighteen = LocalTime.parse("18:00:00");
 
 	@Inject
 	private WeatherService service;
