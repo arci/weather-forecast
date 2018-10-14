@@ -135,3 +135,7 @@ All methods relative to time manipulation may be moved to an utility class.
 # Tests
 
 A unit test namely `WeatherOperationTest` can be found within the test package. Just run it as unit test.
+
+# Source Code
+
+Source code can be found on [GitHub](https://github.com/Arci/weather-forecast).
