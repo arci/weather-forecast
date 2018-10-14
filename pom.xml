@@ -14,6 +14,7 @@
 		<!-- Third party -->
 		<jersey.version>2.27</jersey.version>
 		<jackson.version>2.9.7</jackson.version>
+		<swagger.version>2.0.0</swagger.version>
 		<hibernate.validator.version>5.4.2.Final</hibernate.validator.version>
 		<lombok.version>1.18.2</lombok.version>
 		<commons.lang.version>3.0</commons.lang.version>
@@ -85,6 +86,19 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- Swagger -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+			<version>${swagger.version}</version>
 		</dependency>
 
 		<!-- Bean Validation -->

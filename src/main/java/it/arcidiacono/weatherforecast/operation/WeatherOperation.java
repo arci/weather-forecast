@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.arcidiacono.weatherforecast.bean.City;
-import it.arcidiacono.weatherforecast.bean.WeatherData;
+import it.arcidiacono.weatherforecast.bean.WeatherForecast;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.own.bean.Measure;
 import it.arcidiacono.weatherforecast.service.WeatherService;
@@ -28,14 +28,14 @@ public class WeatherOperation {
 	@Inject
 	private WeatherService service;
 
-	public WeatherData getData(String name, String country) throws ServiceException {
+	public WeatherForecast getData(String name, String country) throws ServiceException {
 		City city = City.of(name, country);
 		List<Measure> forecast = service.getForecast(city);
 		logger.info("retrieved {} forecasted measueres", forecast.size());
 		return aggregateData(forecast);
 	}
 
-	private WeatherData aggregateData(List<Measure> forecast) {
+	private WeatherForecast aggregateData(List<Measure> forecast) {
 		double dailySum = 0;
 		int dailyMeasures = 0;
 		double nightlySum = 0;
@@ -61,7 +61,7 @@ public class WeatherOperation {
 		Double daily = dailyMeasures > 0 ? dailySum / dailyMeasures : null;
 		Double nightly = nightlyMeasures > 0 ? nightlySum / nightlyMeasures : null;
 		Double pressure = pressureMeasures > 0 ? pressureSum / pressureMeasures : null;
-		return WeatherData.of(daily, nightly, pressure);
+		return WeatherForecast.of(daily, nightly, pressure);
 	}
 
 	private boolean isDaytime(Long timestamp) {

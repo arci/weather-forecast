@@ -81,6 +81,9 @@ the response will be:
 }
 ```
 
+# Documentation
+OpenAPI 3.x documentation is available while the server is running at `/openapi.json`. OpenAPI specification is produced using Swagger annotations.
+
 # Development process
 
 TODO

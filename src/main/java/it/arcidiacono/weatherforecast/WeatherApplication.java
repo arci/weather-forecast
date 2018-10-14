@@ -5,6 +5,7 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import it.arcidiacono.weatherforecast.exception.ServiceExceptionMapper;
 import it.arcidiacono.weatherforecast.exception.ValidationExceptionMapper;
 
@@ -22,6 +23,8 @@ public class WeatherApplication extends ResourceConfig {
 
 		register(ServiceExceptionMapper.class);
 		register(ValidationExceptionMapper.class);
+
+		register(new OpenApiResource());
 	}
 
 }

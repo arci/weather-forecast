@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import it.arcidiacono.weatherforecast.bean.City;
-import it.arcidiacono.weatherforecast.bean.WeatherData;
+import it.arcidiacono.weatherforecast.bean.WeatherForecast;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.operation.WeatherOperation;
 import it.arcidiacono.weatherforecast.own.bean.Measure;
@@ -42,7 +42,7 @@ public class WeatherOperationTest {
 	public void emptyForecast() throws ServiceException {
 		Mockito.when(service.getForecast(any(City.class))).thenReturn(Collections.emptyList());
 
-		WeatherData data = operation.getData("", "");
+		WeatherForecast data = operation.getData("", "");
 		assertNull(data.getDaily());
 		assertNull(data.getNightly());
 		assertNull(data.getPressure());
@@ -56,7 +56,7 @@ public class WeatherOperationTest {
 		List<Measure> measures = prepareSingleMeasure(now, temperature, pressure);
 		Mockito.when(service.getForecast(any(City.class))).thenReturn(measures);
 
-		WeatherData data = operation.getData("", "");
+		WeatherForecast data = operation.getData("", "");
 		if (data.getDaily() != null) {
 			assertNull(data.getNightly());
 			assertEquals(temperature, data.getDaily());
@@ -96,7 +96,7 @@ public class WeatherOperationTest {
 		Double nightlyTemperature = (elevenFourtyTemperature + midnightTemperature) / 2;
 		Double pressure = (eightFifteenPressure + noonPressure + elevenFourtyPressure + midnightPressure) / 4;
 
-		WeatherData data = operation.getData("", "");
+		WeatherForecast data = operation.getData("", "");
 		assertEquals(dailyTemperature, data.getDaily());
 		assertEquals(nightlyTemperature, data.getNightly());
 		assertEquals(pressure, data.getPressure());
