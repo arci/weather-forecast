@@ -5,6 +5,9 @@ Since city name is ambiguous for OWM APIs, I suppose I can add another parameter
 
 It would be possible to avoid this by exposing an additional API for searching a city given just its name and retrieving its unique ID, then the `/data` endpoint would accept those unique ID to interrogate the underlying service.
 
+## Dates and timezones
+I assumed the timezone of the OWM response refer to the client timezone since I do not found in the documentation a reference to the used timezone available within the JSON response.
+
 # Environment
 
 The application has been developed and tested using Java 8 and deployed on a Tomcat 9.0 Server, the application is packaged as a _war_.
@@ -22,9 +25,33 @@ A successful response (status code **200**) for the above request would be:
 
 ```
 {
-  daily: 18.984666666666666,
-  nightly: 13.412399999999998,  
-  pressure: 1005.5625
+  forecast: {
+    2018-10-15: {
+      daily: 18.84,
+      nightly: 13.386000000000001,
+      pressure: 1006.19125
+    },
+    2018-10-19: {
+      daily: 20.706666666666667,
+      nightly: 13.826666666666668,
+      pressure: 1006.9983333333333
+    },
+    2018-10-18: {
+      daily: 19.426666666666666,
+      nightly: 14.847999999999999,
+      pressure: 1003.615
+    },
+    2018-10-17: {
+      daily: 19.279999999999998,
+      nightly: 12.102,
+      pressure: 1004.8849999999999
+    },
+    2018-10-16: {
+      daily: 16.8,
+      nightly: 12.856,
+      pressure: 1006.51125
+    }
+  }
 }
 ```
 
@@ -100,6 +127,8 @@ The service interface is binded to the OWM implementation in the composition roo
 
 ## Further work
 I leaved some *TODO* comments within classes to indicate where improvements can be made.
+
+All methods relative to time manipulation may be moved to an utility class.
 
 # Tests
 

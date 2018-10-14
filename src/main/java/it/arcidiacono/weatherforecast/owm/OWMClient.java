@@ -1,8 +1,13 @@
 package it.arcidiacono.weatherforecast.owm;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -45,10 +50,11 @@ public class OWMClient {
 	 *
 	 * @param  name         the city name
 	 * @param  country      the country code in two characters format
-	 * @return              a list of {@linkplain Measure} parsed from OWM response
+	 * @return              a map where keys are {@linkplain LocalDate} of the forecasted day and values are lists of
+	 *                      {@linkplain Measure} parsed from OWM response
 	 * @throws OWMException if any error occur
 	 */
-	public List<Measure> getForecast(String name, String country) throws OWMException {
+	public Map<LocalDate, List<Measure>> getForecast(String name, String country) throws OWMException {
 		Response response = getForecast(name + "," + country);
 		if (response.getStatus() < Status.BAD_REQUEST.getStatusCode()) {
 			return parseResponse(response);
@@ -71,6 +77,27 @@ public class OWMClient {
 		return webTarget.request(MediaType.APPLICATION_JSON).get();
 	}
 
+	private Map<LocalDate, List<Measure>> parseResponse(Response response) throws ResponseFormatException {
+		Map<LocalDate, List<Measure>> forecasts = new HashMap<>();
+		JsonNode json = asJson(response);
+		JsonNode list = json.get("list");
+		if (list.isArray()) {
+			for (final JsonNode element : list) {
+				Measure measure = buildMeasure(element);
+				LocalDate date = toLocalDate(measure.getTimestamp());
+				List<Measure> measures;
+				if (forecasts.containsKey(date)) {
+					measures = forecasts.get(date);
+				} else {
+					measures = new ArrayList<>();
+				}
+				measures.add(measure);
+				forecasts.put(date, measures);
+			}
+		}
+		return forecasts;
+	}
+
 	/*
 	 * TODO better error handling:
 	 * - list can miss
@@ -79,21 +106,16 @@ public class OWMClient {
 	 * pressure can miss or data type conversion can fail.
 	 * Either throw a new "MalformedResponseException" or log and skip the element.
 	 */
-	private List<Measure> parseResponse(Response response) throws ResponseFormatException {
-		List<Measure> measures = new ArrayList<>();
-		JsonNode json = asJson(response);
-		JsonNode list = json.get("list");
-		if (list.isArray()) {
-			for (final JsonNode element : list) {
-				Long timestamp = element.get("dt").asLong();
-				JsonNode main = element.get("main");
-				Double temperature = main.get("temp").asDouble();
-				Double pressure = main.get("pressure").asDouble();
-				Measure measure = Measure.of(timestamp, temperature, pressure);
-				measures.add(measure);
-			}
-		}
-		return measures;
+	private Measure buildMeasure(final JsonNode element) {
+		Long timestamp = element.get("dt").asLong();
+		JsonNode main = element.get("main");
+		Double temperature = main.get("temp").asDouble();
+		Double pressure = main.get("pressure").asDouble();
+		return Measure.of(timestamp, temperature, pressure);
+	}
+
+	private LocalDate toLocalDate(Long timestamp) {
+		return Instant.ofEpochSecond(timestamp).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
 	/*

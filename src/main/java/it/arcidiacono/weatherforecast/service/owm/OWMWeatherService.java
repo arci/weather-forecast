@@ -1,6 +1,8 @@
 package it.arcidiacono.weatherforecast.service.owm;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -22,7 +24,7 @@ public class OWMWeatherService implements WeatherService {
 	}
 
 	@Override
-	public List<Measure> getForecast(City city) throws ServiceException {
+	public Map<LocalDate, List<Measure>> getForecast(City city) throws ServiceException {
 		try {
 			return client.getForecast(city.getName(), city.getCountry());
 		} catch (OWMException e) {

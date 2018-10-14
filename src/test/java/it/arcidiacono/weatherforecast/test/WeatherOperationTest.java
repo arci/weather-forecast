@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -125,8 +124,7 @@ public class WeatherOperationTest {
 		LocalDate date = LocalDate.now();
 		LocalTime time = LocalTime.parse(hour + ":" + minutes + ":" + seconds);
 		LocalDateTime dateTime = LocalDateTime.of(date, time);
-		ZoneId timeZone = TimeZone.getDefault().toZoneId();
-		Instant instant = dateTime.atZone(timeZone).toInstant();
+		Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
 		return instant.toEpochMilli();
 	}
 }

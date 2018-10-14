@@ -1,10 +1,13 @@
 package it.arcidiacono.weatherforecast.operation;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import it.arcidiacono.weatherforecast.bean.City;
 import it.arcidiacono.weatherforecast.exception.ServiceException;
 import it.arcidiacono.weatherforecast.own.bean.Measure;
+import it.arcidiacono.weatherforecast.response.AverageForecast;
 import it.arcidiacono.weatherforecast.response.WeatherForecast;
 import it.arcidiacono.weatherforecast.service.WeatherService;
 
@@ -30,12 +34,18 @@ public class WeatherOperation {
 
 	public WeatherForecast getData(String name, String country) throws ServiceException {
 		City city = City.of(name, country);
-		List<Measure> forecast = service.getForecast(city);
-		logger.info("retrieved {} forecasted measueres", forecast.size());
-		return aggregateData(forecast);
+		Map<LocalDate, List<Measure>> forecasts = service.getForecast(city);
+		logger.info("forecasted {} days", forecasts.size());
+
+		Map<LocalDate, AverageForecast> averages = new HashMap<>();
+		for (Entry<LocalDate, List<Measure>> entry : forecasts.entrySet()) {
+			AverageForecast average = aggregateMeasures(entry.getValue());
+			averages.put(entry.getKey(), average);
+		}
+		return WeatherForecast.of(averages);
 	}
 
-	private WeatherForecast aggregateData(List<Measure> forecast) {
+	private AverageForecast aggregateMeasures(List<Measure> forecast) {
 		double dailySum = 0;
 		int dailyMeasures = 0;
 		double nightlySum = 0;
@@ -61,7 +71,7 @@ public class WeatherOperation {
 		Double daily = dailyMeasures > 0 ? dailySum / dailyMeasures : null;
 		Double nightly = nightlyMeasures > 0 ? nightlySum / nightlyMeasures : null;
 		Double pressure = pressureMeasures > 0 ? pressureSum / pressureMeasures : null;
-		return WeatherForecast.of(daily, nightly, pressure);
+		return AverageForecast.of(daily, nightly, pressure);
 	}
 
 	private boolean isDaytime(Long timestamp) {
@@ -71,8 +81,7 @@ public class WeatherOperation {
 
 	private LocalTime toLocalTime(Long timestamp) {
 		Instant instant = Instant.ofEpochSecond(timestamp);
-		ZoneId timeZone = TimeZone.getDefault().toZoneId();
-		return LocalTime.from(instant.atZone(timeZone));
+		return LocalTime.from(instant.atZone(ZoneId.systemDefault()));
 	}
 
 }
