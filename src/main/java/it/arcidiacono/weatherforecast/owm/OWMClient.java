@@ -65,13 +65,11 @@ public class OWMClient {
 
 	private WebTarget buildForecastWebTarget (String name, String country) {
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target(ENDPOINT)
+		return client.target(ENDPOINT)
 				.path(FORECAST)
 				.queryParam("appid", apiKey)
 				.queryParam("q", name + "," + country)
 				.queryParam("units", "metric");
-		logger.info("target endpoint: {}", target);
-		return target;
 	}
 
 	/*

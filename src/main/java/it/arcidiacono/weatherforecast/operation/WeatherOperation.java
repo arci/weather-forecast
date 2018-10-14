@@ -57,9 +57,9 @@ public class WeatherOperation {
 			}
 		}
 
-		double daily = dailyMeasures > 0 ? dailySum / dailyMeasures : null;
-		double nightly = nightlyMeasures > 0 ? nightlySum / nightlyMeasures : null;
-		double pressure = pressureMeasures > 0 ? pressureSum / pressureMeasures : null;
+		Double daily = dailyMeasures > 0 ? dailySum / dailyMeasures : null;
+		Double nightly = nightlyMeasures > 0 ? nightlySum / nightlyMeasures : null;
+		Double pressure = pressureMeasures > 0 ? pressureSum / pressureMeasures : null;
 		return WeatherData.of(daily, nightly, pressure);
 	}
 
