@@ -20,6 +20,7 @@ public class WeatherApplication extends ResourceConfig {
 		register(new ApplicationBinder());
 
 		register(JacksonFeature.class);
+		register(ObjectMapperContextResolver.class);
 
 		register(ServiceExceptionMapper.class);
 		register(ValidationExceptionMapper.class);
