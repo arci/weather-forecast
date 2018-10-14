@@ -84,9 +84,22 @@ the response will be:
 # Documentation
 OpenAPI 3.x documentation is available while the server is running at `/openapi.json`. OpenAPI specification is produced using Swagger annotations.
 
-# Development process
+# Project structure
+The project uses *Jersey* for exposing REST APIs.
 
-TODO
+- application is initialized within class `it.arcidiacono.weatherforecast.WeatherApplication`
+- the REST resource is at `it.arcidiacono.weatherforecast.resource.WeatherForecastResource`
+
+Dependency injection is used to inject dependencies within classes, the composition root is at `it.arcidiacono.weatherforecast.ApplicationBinder`.
+
+Request bean are available within the package `it.arcidiacono.weatherforecast.request` while response bean in `it.arcidiacono.weatherforecast.response`.
+
+To decouple web tier from the application logic an *operation* class is injected within the resource: `it.arcidiacono.weatherforecast.operation.WeatherOperation` and to further separate the application logic from the specific underlying service an instance of the service implementing the interface `it.arcidiacono.weatherforecast.service.WeatherService` is injected within the operation.
+
+The service interface is binded to the OWM implementation in the composition root. The OWM implementation resides in the packages `it.arcidiacono.weatherforecast.owm.*` that can be moved to a separate maven project.
+
+## Further work
+I leaved some *TODO* comments within classes to indicate where improvements can be made.
 
 # Tests
 
