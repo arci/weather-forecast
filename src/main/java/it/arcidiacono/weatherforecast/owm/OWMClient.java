@@ -49,8 +49,7 @@ public class OWMClient {
 	 * @throws OWMException if any error occur
 	 */
 	public List<Measure> getForecast(String name, String country) throws OWMException {
-		WebTarget webTarget = buildForecastWebTarget(name, country);
-		Response response = webTarget.request(MediaType.APPLICATION_JSON).get();
+		Response response = getForecast(name + "," + country);
 		if (response.getStatus() < Status.BAD_REQUEST.getStatusCode()) {
 			return parseResponse(response);
 		} else {
@@ -62,13 +61,14 @@ public class OWMClient {
 		}
 	}
 
-	private WebTarget buildForecastWebTarget(String name, String country) {
+	private Response getForecast(String query) {
 		Client client = ClientBuilder.newClient();
-		return client.target(ENDPOINT)
+		WebTarget webTarget = client.target(ENDPOINT)
 				.path(FORECAST)
 				.queryParam("appid", apiKey)
-				.queryParam("q", name + "," + country)
+				.queryParam("q", query)
 				.queryParam("units", "metric");
+		return webTarget.request(MediaType.APPLICATION_JSON).get();
 	}
 
 	/*

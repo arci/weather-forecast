@@ -6,6 +6,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import it.arcidiacono.weatherforecast.exception.ServiceExceptionMapper;
+import it.arcidiacono.weatherforecast.exception.ValidationExceptionMapper;
 
 @ApplicationPath("/")
 public class WeatherApplication extends ResourceConfig {
@@ -17,9 +18,10 @@ public class WeatherApplication extends ResourceConfig {
 
 		register(new ApplicationBinder());
 
-		register(ServiceExceptionMapper.class);
-
 		register(JacksonFeature.class);
+
+		register(ServiceExceptionMapper.class);
+		register(ValidationExceptionMapper.class);
 	}
 
 }

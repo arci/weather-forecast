@@ -14,7 +14,7 @@
 		<!-- Third party -->
 		<jersey.version>2.27</jersey.version>
 		<jackson.version>2.9.7</jackson.version>
-		<hibernate.validator.version>6.0.13.Final</hibernate.validator.version>
+		<hibernate.validator.version>5.4.2.Final</hibernate.validator.version>
 		<lombok.version>1.18.2</lombok.version>
 		<commons.lang.version>3.0</commons.lang.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -60,6 +60,12 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-bean-validation</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
 
